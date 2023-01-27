@@ -1,44 +1,61 @@
 #include "sort.h"
 
 /**
- *insertion_sort_list - sort list
+ * len_list - returns the length of a linked list
+ * @h: pointer to the list
  *
- *@list: list to sort
+ * Return: length of list
  */
+int len_list(listint_t *h)
+{
+	int len = 0;
 
+	while (h)
+	{
+		len++;
+		h = h->next;
+	}
+	return (len);
+}
+
+/**
+ * insertion_sort_list - sorts a linked list with the Insert Sort algorithm
+ * @list: double pointer to the list to sort
+ */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *current, *behind, *temp;
+	listint_t *curr = NULL, *one = NULL;
+	listint_t *two = NULL, *three = NULL, *four = NULL;
 
-	if (*list == NULL)
+	if (!list || !(*list) || len_list(*list) < 2)
 		return;
 
-	current = *list;
+	curr = *list;
 
-	while (current)
+	while (curr)
 	{
-		behind = current->prev;
-
-		while (behind && behind->n > current->n)
+		if (curr->prev && curr->n < curr->prev->n)
 		{
-			temp = behind->prev;
-			if (temp)
-				temp->next = current;
+			one = curr->prev->prev;
+			two = curr->prev;
+			three = curr;
+			four = curr->next;
 
-			if (current->next)
-				current->next->prev = behind;
-
-			behind->next = current->next;
-			current->next = behind;
-			behind->prev = current;
-			current->prev = temp;
-			behind = temp;
-
-			if (!behind)
-				*list = current;
-
+			two->next = four;
+			if (four)
+				four->prev = two;
+			three->next = two;
+			three->prev = one;
+			if (one)
+				one->next = three;
+			else
+				*list = three;
+			two->prev = three;
+			curr = *list;
 			print_list(*list);
+			continue;
 		}
-		current = current->next;
+				else
+			curr = curr->next;
 	}
 }
