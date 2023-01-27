@@ -19,7 +19,7 @@ typedef enum kind_e
 } kind_t;
 
 /**
- * struct card_s - Playing card 
+ * struct card_s - Playing card
  * @value: Value of the card
  * From "Ace" to "King"
  * @kind: Kind of the card
